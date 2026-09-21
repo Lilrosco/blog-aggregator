@@ -1,3 +1,8 @@
 module github.com/Lilrosco/blog-aggregator
 
-go 1.24.2
+go 1.27.1
+
+require (
+	github.com/google/uuid v1.6.0 // indirect
+	github.com/lib/pq v1.12.3 // indirect
+)
