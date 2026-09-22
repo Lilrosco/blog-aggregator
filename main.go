@@ -20,9 +20,10 @@ func registerCommands() *commands {
 		handlers: make(map[string]func(*state, command) error),
 	}
 
-	cmds.register("login", handlerLogin)
-	cmds.register("register", handlerRegister)
-	cmds.register("reset", handlerReset)
+	cmds.register("login", handleLogin)
+	cmds.register("register", handleRegister)
+	cmds.register("reset", handleReset)
+	cmds.register("users", handleGetUsers)
 	return &cmds
 }
 
@@ -62,5 +63,6 @@ func main() {
 
 	if err = cmds.run(programState, cmd); err != nil {
 		log.Fatalf("error running command: %v", err)
+		os.Exit(1)
 	}
 }
