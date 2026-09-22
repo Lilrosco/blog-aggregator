@@ -24,6 +24,7 @@ func registerCommands() *commands {
 	cmds.register("register", handleRegister)
 	cmds.register("reset", handleReset)
 	cmds.register("users", handleGetUsers)
+	cmds.register("agg", handleAgg)
 	return &cmds
 }
 
