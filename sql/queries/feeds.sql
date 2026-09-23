@@ -26,3 +26,16 @@ SELECT
     *
 FROM
     feeds;
+
+-- name: GetFeedsWithUserName :many
+SELECT
+    f.id,
+    f.name,
+    f.url,
+    f.created_at,
+    f.updated_at,
+    u.name
+FROM
+    feeds f
+LEFT JOIN
+    users u ON f.user_id = u.id;

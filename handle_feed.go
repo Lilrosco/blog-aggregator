@@ -62,3 +62,25 @@ func handleAddFeed(s *state, cmd command) error {
 
 	return nil
 }
+
+func handleGetFeeds(s *state, cmd command) error {
+	feeds, err := s.db.GetFeedsWithUserName(
+		context.Background(),
+	)
+
+	if err != nil {
+		return fmt.Errorf("could fetch all feeds: %w", err)
+	}
+
+	for _, feed := range feeds {
+		if feed.Name_2.Valid {
+			fmt.Printf("* %s\n", feed.Name)
+			fmt.Printf("* %s\n", feed.Url)
+			fmt.Printf("* %s\n", feed.Name_2.String)
+		} else {
+			return fmt.Errorf("could not properly fetch user attached to feed - Name: %s | Url: %s", feed.Name, feed.Url)
+		}
+	}
+
+	return nil
+}

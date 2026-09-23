@@ -29,6 +29,7 @@ func registerCommands() *commands {
 	cmds.register("users", handleGetUsers)
 	cmds.register("agg", handleAgg)
 	cmds.register("addfeed", handleAddFeed)
+	cmds.register("feeds", handleGetFeeds)
 	return &cmds
 }
 
