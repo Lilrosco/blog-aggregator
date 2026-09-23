@@ -10,6 +10,9 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// For pq database error
+const errUniqueViolation = "23505"
+
 type state struct {
 	db *database.Queries
 	cfg *config.Config
@@ -25,6 +28,7 @@ func registerCommands() *commands {
 	cmds.register("reset", handleReset)
 	cmds.register("users", handleGetUsers)
 	cmds.register("agg", handleAgg)
+	cmds.register("addfeed", handleAddFeed)
 	return &cmds
 }
 

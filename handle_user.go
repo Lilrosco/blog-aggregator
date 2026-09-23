@@ -12,8 +12,6 @@ import (
 	"github.com/google/uuid"
 )
 
-const errUniqueViolation = "23505"
-
 func handleLogin(s *state, cmd command) error {
 	if len(cmd.Args) != 1 {
 		return fmt.Errorf("usage: %s <name>", cmd.Name)
