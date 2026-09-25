@@ -60,6 +60,12 @@ func handleAddFeed(s *state, cmd command) error {
 	fmt.Printf("Username: %s\n", user.Name)
 	fmt.Println("Feed has been created")
 
+	_, err = createFeedFollow(s, feed, user)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
