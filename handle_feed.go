@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"errors"
 	"fmt"
 	"time"
@@ -12,22 +11,9 @@ import (
 	"github.com/google/uuid"
 )
 
-func handleAddFeed(s *state, cmd command) error {
+func handleAddFeed(s *state, cmd command, user database.User) error {
 	if len(cmd.Args) != 2 {
 		return fmt.Errorf("usage: %s <name> <url>", cmd.Name)
-	}
-
-	user, err := s.db.GetUser(
-		context.Background(),
-		s.cfg.CurrentUserName,
-	)
-
-	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return fmt.Errorf("User with name: %s does not exists\n", user.Name)
-		}
-
-		return fmt.Errorf("could not fetch user: %s - %w", user.Name, err)
 	}
 
 	name := cmd.Args[0]

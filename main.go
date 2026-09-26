@@ -1,6 +1,9 @@
 package main
 
 import (
+	"context"
+	"errors"
+	"fmt"
 	"database/sql"
 	"log"
 	"os"
@@ -18,22 +21,7 @@ type state struct {
 	cfg *config.Config
 }
 
-func registerCommands() *commands {
-	cmds := commands{
-		handlers: make(map[string]func(*state, command) error),
-	}
 
-	cmds.register("login", handleLogin)
-	cmds.register("register", handleRegister)
-	cmds.register("reset", handleReset)
-	cmds.register("users", handleGetUsers)
-	cmds.register("agg", handleAgg)
-	cmds.register("addfeed", handleAddFeed)
-	cmds.register("feeds", handleGetFeeds)
-	cmds.register("follow", handleFollow)
-	cmds.register("following", handleFollowing)
-	return &cmds
-}
 
 func main() {
 	cfg, err := config.Read()
@@ -72,5 +60,28 @@ func main() {
 	if err = cmds.run(programState, cmd); err != nil {
 		log.Fatalf("error running command: %v", err)
 		os.Exit(1)
+	}
+}
+
+func middlewareLoggedIn(handler func(s *state, cmd command, user database.User) error) func(*state, command) error {
+	return func(s *state, cmd command) error {
+		if s.cfg.CurrentUserName == "" {
+			return errors.New("No user is logged in!")
+		}
+
+		user, err := s.db.GetUser(
+			context.Background(),
+			s.cfg.CurrentUserName,
+		)
+
+		if err != nil {
+			if errors.Is(err, sql.ErrNoRows) {
+				return fmt.Errorf("User with name: %s does not exists\n", s.cfg.CurrentUserName)
+			}
+
+			return fmt.Errorf("could not fetch user: %s - %w", s.cfg.CurrentUserName, err)
+		}
+
+		return handler(s, cmd, user)
 	}
 }
