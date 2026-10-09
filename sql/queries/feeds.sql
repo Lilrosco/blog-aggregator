@@ -19,7 +19,7 @@ WHERE
     url = $1;
 
 -- name: DeleteAllFeeds :exec
-TRUNCATE TABLE feeds;
+DELETE FROM feeds;
 
 -- name: GetFeeds :many
 SELECT

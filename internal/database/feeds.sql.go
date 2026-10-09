@@ -58,7 +58,7 @@ func (q *Queries) CreateFeed(ctx context.Context, arg CreateFeedParams) (Feed, e
 }
 
 const deleteAllFeeds = `-- name: DeleteAllFeeds :exec
-TRUNCATE TABLE feeds
+DELETE FROM feeds
 `
 
 func (q *Queries) DeleteAllFeeds(ctx context.Context) error {

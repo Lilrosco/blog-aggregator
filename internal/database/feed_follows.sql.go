@@ -73,7 +73,7 @@ func (q *Queries) CreateFeedFollow(ctx context.Context, arg CreateFeedFollowPara
 }
 
 const deleteAllFeedFollows = `-- name: DeleteAllFeedFollows :exec
-TRUNCATE TABLE feed_follows
+DELETE FROM feed_follows
 `
 
 func (q *Queries) DeleteAllFeedFollows(ctx context.Context) error {
@@ -159,6 +159,7 @@ const getFeedFollowForUser = `-- name: GetFeedFollowForUser :many
 SELECT
     feed_follows.id,
     feeds.name AS feed_name,
+    feeds.url AS feed_url,
     users.name AS user_name
 FROM
     feed_follows
@@ -171,6 +172,7 @@ WHERE
 type GetFeedFollowForUserRow struct {
 	ID       uuid.UUID
 	FeedName string
+	FeedUrl  string
 	UserName string
 }
 
@@ -183,7 +185,12 @@ func (q *Queries) GetFeedFollowForUser(ctx context.Context, userID uuid.UUID) ([
 	var items []GetFeedFollowForUserRow
 	for rows.Next() {
 		var i GetFeedFollowForUserRow
-		if err := rows.Scan(&i.ID, &i.FeedName, &i.UserName); err != nil {
+		if err := rows.Scan(
+			&i.ID,
+			&i.FeedName,
+			&i.FeedUrl,
+			&i.UserName,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

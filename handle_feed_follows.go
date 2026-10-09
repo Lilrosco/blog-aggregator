@@ -101,7 +101,7 @@ func handleUnfollow(s *state, cmd command, user database.User) error {
 		return fmt.Errorf("could not delete feed follow: %s for users: %s | err: %w", feed.Url, user.Name, err)
 	}
 
-	fmt.Println("Feed follow: %s for users: %s was deleted", feed.Url, user.Name)
+	fmt.Printf("Feed: %s for users: %s was unfollowed\n", feed.Url, user.Name)
 
 	return nil
 }
@@ -116,10 +116,11 @@ func handleFollowing(s *state, cmd command, user database.User) error {
 		return fmt.Errorf("could fetch all feed_follows for user - %s | %w", user.Name, err)
 	}
 
-	fmt.Printf("* Feeds for User: %s\n", user.Name)
+	fmt.Printf("* Feeds for User: %s\n\n", user.Name)
 
 	for _, feed_follow := range feed_follows {
 		fmt.Printf("* %s\n", feed_follow.FeedName)
+		fmt.Printf("-> %s\n\n", feed_follow.FeedUrl)
 	}
 
 	return nil

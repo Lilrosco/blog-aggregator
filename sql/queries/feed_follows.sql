@@ -30,6 +30,7 @@ WHERE
 SELECT
     feed_follows.id,
     feeds.name AS feed_name,
+    feeds.url AS feed_url,
     users.name AS user_name
 FROM
     feed_follows
@@ -56,4 +57,4 @@ FROM
 DELETE FROM feed_follows WHERE user_id = $1 AND feed_id = $2;
 
 -- name: DeleteAllFeedFollows :exec
-TRUNCATE TABLE feed_follows;
+DELETE FROM feed_follows;

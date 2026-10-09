@@ -58,7 +58,13 @@ func main() {
 	}
 
 	if err = cmds.run(programState, cmd); err != nil {
-		log.Fatalf("error running command: %v", err)
+		log.Printf("error running command '%s': %v\n", cmd.Name, err)
+		helpCmd := command{Name: "help", Args: nil}
+
+		if err = cmds.run(programState, helpCmd); err != nil {
+			log.Fatalf("help command is missing!\n")
+		}
+	
 		os.Exit(1)
 	}
 }
@@ -84,4 +90,22 @@ func middlewareLoggedIn(handler func(s *state, cmd command, user database.User) 
 
 		return handler(s, cmd, user)
 	}
+}
+
+func handleHelpUsage(s *state, cmd command) error {
+	fmt.Println("Usage: blog-aggregator <command> [args]")
+	fmt.Println("Commands:")
+	fmt.Println("  register <username>        - Register a new user")
+	fmt.Println("  login <username>           - Log in as a user")
+	fmt.Println("  reset                      - Reset the database (delete all users, feeds, and feed posts)")
+	fmt.Println("  users                      - List all users")
+	fmt.Println("  agg <interval>             - Update oldest feeds every specified interval (run in a seperate terminal 'ctrl/cmd + c' to terminate)")
+	fmt.Println("  addfeed <name> <url>       - Add a new feed for logged in user")
+	fmt.Println("  feeds                      - List all feeds")
+	fmt.Println("  follow <url>               - Follow a feed for logged in user")
+	fmt.Println("  following                  - List followed feeds for logged in user")
+	fmt.Println("  unfollow <url>             - Unfollow a feed for logged in user")
+	fmt.Println("  browse [limit]             - Browse recent posts for logged in user (limit arg is optional defaults to 2)")
+	fmt.Println("  help                       - List of commands with usage")
+	return nil
 }
