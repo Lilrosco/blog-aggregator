@@ -8,8 +8,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/Lilrosco/blog-aggregator/internal/config"
-	"github.com/Lilrosco/blog-aggregator/internal/database"
+	"github.com/Lilrosco/gator/internal/config"
+	"github.com/Lilrosco/gator/internal/database"
 	_ "github.com/lib/pq"
 )
 
@@ -93,7 +93,7 @@ func middlewareLoggedIn(handler func(s *state, cmd command, user database.User) 
 }
 
 func handleHelpUsage(s *state, cmd command) error {
-	fmt.Println("Usage: blog-aggregator <command> [args]")
+	fmt.Println("Usage: gator <command> [args]")
 	fmt.Println("Commands:")
 	fmt.Println("  register <username>        - Register a new user")
 	fmt.Println("  login <username>           - Log in as a user")

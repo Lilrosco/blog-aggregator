@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/Lilrosco/blog-aggregator/internal/database"
+	"github.com/Lilrosco/gator/internal/database"
 )
 
 func handleBrowsePosts(s *state, cmd command, user database.User) error {

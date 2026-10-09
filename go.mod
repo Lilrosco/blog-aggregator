@@ -1,4 +1,4 @@
-module github.com/Lilrosco/blog-aggregator
+module github.com/Lilrosco/gator
 
 go 1.27.1
 
