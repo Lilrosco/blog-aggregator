@@ -101,7 +101,13 @@ gator browse 5
 gator help
 ```
 
-`agg` is a long-running process that fetches one feed on the interval specified (example - 30s, 1m, 15m). Leave it running in a separate terminal and stop it with `Ctrl / Cmd + C`. The optional number passed to `browse` limits the number of displayed posts; it defaults to 2.
+`agg` is a long-running process that fetches one feed on the interval specified (example - 30s, 1m, 15m). Leave it running in a separate terminal and stop it with `Ctrl / Cmd + C`. 
+
+**WARNING**
+
+Be careful not to set the interval too low or potential DOS attack a server
+
+The optional number passed to `browse` limits the number of displayed posts; it defaults to 2.
 
 For more help try running the command
 
